@@ -1,0 +1,26 @@
+{
+  "name": "epic-games-bot",
+  "version": "1.0.0",
+  "description": "Get Epic Games Weekly games on Discord.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "Epic",
+    "Games",
+    "Discord.js",
+    "weekly-games"
+  ],
+  "author": "Ilias Thalassochoritis (eliac7)",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.22.0",
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
