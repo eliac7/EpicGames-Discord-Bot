@@ -4,7 +4,8 @@
   "description": "Get Epic Games Weekly games on Discord.js",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "heroku": "node index.js"
   },
   "keywords": [
     "Epic",
