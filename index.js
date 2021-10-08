@@ -11,7 +11,7 @@ const url =
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(">epichelp", { type: "PLAYING" });
+  client.user.setActivity(">epichelp", { type: "LISTENING" });
 });
 
 const getGames = (arg) =>
@@ -110,10 +110,20 @@ client.on("messageCreate", async (message) => {
       const help_embed = new MessageEmbed()
         .setColor("#f2f2f2")
         .setTitle("Epic Games Bot")
-        .addFields({
-          name: "Usage",
-          value: 'Type ">latest" to get the latest 3 games.',
-        })
+        .addFields(
+          {
+            name: "Help section (this section)",
+            value: ">epichelp",
+          },
+          {
+            name: "Latest games",
+            value: ">game latest",
+          },
+          {
+            name: "Future games",
+            value: ">game future",
+          }
+        )
         .setFooter("Made by eliac7#5541");
       message.reply({ embeds: [help_embed] });
     } else if (cmd === "game") {
