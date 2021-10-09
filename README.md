@@ -6,6 +6,15 @@
   <h3 align="center">What is it for? </h3>
   <p align="center"> Epic Games is running, for some time now, weekly free games. Instead of the user have to go on the Epic Games site and check them out, with one command from his Discord app, he can check which game is available or which games will be available soon.</p>
 </p>
+
+<p align="center">
+  <h3 align="center">Add to your server!</h3>
+  <div align="center">
+  <a href="https://bit.ly/3iKMqQl">Add to Discord</a>
+  </div>
+
+</p>
+
 <p align="center">
   <h3 align="center">How does it work? </h3>
   <p align="center"> Epic Games is providing free games on their site via a Rest API. After debugging, found the public API that they are using, and managed to figure out how it works.</p>
