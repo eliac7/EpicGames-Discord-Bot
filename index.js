@@ -6,12 +6,48 @@ const client = new Client({
 });
 require("dotenv").config();
 
+const schedule = require("node-schedule");
+
 const url =
   "https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions";
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity(">epichelp", { type: "LISTENING" });
+});
+client.on("ready", (client) => {
+  //Send a message on a channel , every Thursday on 6PM.
+  schedule.scheduleJob("* 0 18 * * 4", async () => {
+    const i = await getGames("latest");
+
+    i.forEach((data) => {
+      const embed = new MessageEmbed()
+        .setColor("#f2f2f2")
+        .setTitle(data.title)
+        .setURL(data.productURL)
+        .setDescription(data.description)
+        .addFields(
+          {
+            name: "Started on",
+            value: data.startDate,
+            inline: true,
+          },
+          {
+            name: "Ends on",
+            value: `${data.endDate} ${
+              data.endDateDiffernce > 1
+                ? `( In ${data.endDateDiffernce} days )`
+                : `( In ${data.endDateDiffernce} day )`
+            }`,
+            inline: true,
+          }
+        )
+        .setImage(data.imageURL)
+        .setTimestamp()
+        .setFooter("Made by eliac7#5541");
+      client.channels.cache.get("892652052491149333").send({ embeds: [embed] });
+    });
+  });
 });
 
 const getGames = (arg) =>
@@ -26,7 +62,10 @@ const getGames = (arg) =>
           if (el.promotions) {
             if (
               el.promotions.promotionalOffers &&
-              el.promotions.promotionalOffers.length > 0
+              el.promotions.promotionalOffers.length > 0 &&
+              //Get only the totally free games (not these with discount)
+              el.promotions.promotionalOffers[0].promotionalOffers[0]
+                .discountSetting.discountPercentage == 0
             ) {
               let imagesGetThumbnail = el.keyImages.filter((obj) => {
                 return obj.type === "Thumbnail";
@@ -93,6 +132,7 @@ const getGames = (arg) =>
         reject(error);
       });
   });
+
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
@@ -107,7 +147,7 @@ client.on("messageCreate", async (message) => {
     }
 
     if (cmd === "epichelp") {
-      const help_embed = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setColor("#f2f2f2")
         .setTitle("Epic Games Bot")
         .addFields(
@@ -125,7 +165,7 @@ client.on("messageCreate", async (message) => {
           }
         )
         .setFooter("Made by eliac7#5541");
-      message.reply({ embeds: [help_embed] });
+      message.reply({ embeds: [embed] });
     } else if (cmd === "game") {
       const commands = ["future", "latest"];
       if (!commands.includes(args[1]))
@@ -136,14 +176,29 @@ client.on("messageCreate", async (message) => {
           res.forEach(function (i) {
             let fieldText = args[1] === "latest" ? "Started on" : "Starts on";
 
-            let startDate =
-              args[1] === "latest"
-                ? `${i.startDate} (${Math.abs(
-                    i.startDateDiffernce
-                  )} day(s) ago)`
-                : `${i.startDate} ( In ${i.startDateDiffernce} day(s) )`;
+            let startDate;
 
-            const help_embed = new MessageEmbed()
+            if (args[1] === "latest") {
+              if (i.startDateDiffernce === 0) {
+                startDate = "Started today";
+              } else {
+                startDate = `${i.startDate} (${Math.abs(
+                  i.startDateDiffernce
+                )} day(s) ago)`;
+              }
+            } else {
+              if (i.startDateDiffernce === 0) {
+                startDate = "Starting today";
+              } else {
+                if (i.startDateDiffernce > 1) {
+                  startDate = `${i.startDate}  ( In ${i.startDateDiffernce} days )`;
+                } else {
+                  startDate = `${i.startDate}  ( In ${i.startDateDiffernce} day )`;
+                }
+              }
+            }
+
+            const embed = new MessageEmbed()
               .setColor("#f2f2f2")
               .setTitle(i.title)
               .setURL(i.productURL)
@@ -156,7 +211,11 @@ client.on("messageCreate", async (message) => {
                 },
                 {
                   name: "Ends on",
-                  value: `${i.endDate} ( In ${i.endDateDiffernce} day(s) )`,
+                  value: `${i.endDate} ${
+                    i.endDateDiffernce > 1
+                      ? `( In ${i.endDateDiffernce} days )`
+                      : `( In ${i.endDateDiffernce} day )`
+                  }`,
                   inline: true,
                 }
               )
@@ -164,7 +223,7 @@ client.on("messageCreate", async (message) => {
               .setImage(i.imageURL)
               .setTimestamp()
               .setFooter("Made by eliac7#5541");
-            message.reply({ embeds: [help_embed] });
+            message.reply({ embeds: [embed] });
           });
         });
       }
