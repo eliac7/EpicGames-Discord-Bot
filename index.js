@@ -19,7 +19,10 @@ client.on("ready", (client) => {
   //Send a message on a channel , every Thursday on 6PM.
   schedule.scheduleJob("* 0 18 * * 4", async () => {
     const i = await getGames("latest");
-
+    
+    
+    //Send a message on channel before "spamming" with games 
+    client.channels.cache.get("709045710204436540").send("**LATEST GAMES**");
     i.forEach((data) => {
       const embed = new MessageEmbed()
         .setColor("#f2f2f2")
