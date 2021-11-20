@@ -45,7 +45,7 @@ client.on("ready", (client) => {
         .setImage(data.imageURL)
         .setTimestamp()
         .setFooter("Made by eliac7#5541");
-      client.channels.cache.get("892652052491149333").send({ embeds: [embed] });
+      client.channels.cache.get("709045710204436540").send({ embeds: [embed] });
     });
   });
 });
