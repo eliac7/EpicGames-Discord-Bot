@@ -19,9 +19,8 @@ client.on("ready", (client) => {
   //Send a message on a channel , every Thursday on 6PM.
   schedule.scheduleJob("* 0 18 * * 4", async () => {
     const i = await getGames("latest");
-    
-    
-    //Send a message on channel before "spamming" with games 
+
+    //Send a message on channel before "spamming" with games
     client.channels.cache.get("709045710204436540").send("**LATEST GAMES**");
     i.forEach((data) => {
       const embed = new MessageEmbed()
@@ -84,7 +83,7 @@ const getGames = (arg) =>
                 description: el.description,
                 title: el.title,
                 productURL:
-                  "https://www.epicgames.com/store/en-US/p/" + el.urlSlug,
+                  "https://www.epicgames.com/store/en-US/p/" + el.productSlug,
                 imageURL: imagesGetThumbnail[0]?.url,
                 startDate: startDateRAW.format("DD/MM/YY"),
                 endDate: endDateRAW.format("DD/MM/YY"),
@@ -112,7 +111,7 @@ const getGames = (arg) =>
                 description: el.description,
                 title: el.title,
                 productURL:
-                  "https://www.epicgames.com/store/en-US/p/" + el.urlSlug,
+                  "https://www.epicgames.com/store/en-US/p/" + el.productSlug,
                 imageURL: imagesGetThumbnail[0]?.url,
                 startDate: startDateRAW.format("DD/MM/YY"),
                 endDate: endDateRAW.format("DD/MM/YY"),
