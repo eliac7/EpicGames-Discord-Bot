@@ -17,38 +17,47 @@ client.on("ready", () => {
 });
 client.on("ready", (client) => {
   //Send a message on a channel , every Thursday on 6PM.
-  schedule.scheduleJob("* 0 18 * * 4", async () => {
-    const i = await getGames("latest");
 
-    //Send a message on channel before "spamming" with games
-    client.channels.cache.get("709045710204436540").send("**LATEST GAMES**");
-    i.forEach((data) => {
-      const embed = new MessageEmbed()
-        .setColor("#f2f2f2")
-        .setTitle(data.title)
-        .setURL(data.productURL)
-        .setDescription(data.description)
-        .addFields(
-          {
-            name: "Started on",
-            value: data.startDate,
-            inline: true,
-          },
-          {
-            name: "Ends on",
-            value: `${data.endDate} ${
-              data.endDateDiffernce > 1
-                ? `( In ${data.endDateDiffernce} days )`
-                : `( In ${data.endDateDiffernce} day )`
-            }`,
-            inline: true,
-          }
-        )
-        .setImage(data.imageURL)
-        .setTimestamp()
-        .setFooter("Made by eliac7#5541");
-      client.channels.cache.get("709045710204436540").send({ embeds: [embed] });
-    });
+  //First check if is sent
+  let isSend = false;
+  schedule.scheduleJob("* 0 18 * * 4", async () => {
+    //If it is not sent, send it
+    if (!isSend) {
+      isSend = true;
+      const i = await getGames("latest");
+
+      //Send a message on channel before "spamming" with games
+      client.channels.cache.get("709045710204436540").send("**LATEST GAMES**");
+      i.forEach((data) => {
+        const embed = new MessageEmbed()
+          .setColor("#f2f2f2")
+          .setTitle(data.title)
+          .setURL(data.productURL)
+          .setDescription(data.description)
+          .addFields(
+            {
+              name: "Started on",
+              value: data.startDate,
+              inline: true,
+            },
+            {
+              name: "Ends on",
+              value: `${data.endDate} ${
+                data.endDateDiffernce > 1
+                  ? `( In ${data.endDateDiffernce} days )`
+                  : `( In ${data.endDateDiffernce} day )`
+              }`,
+              inline: true,
+            }
+          )
+          .setImage(data.imageURL)
+          .setTimestamp()
+          .setFooter("Made by eliac7#5541");
+        client.channels.cache
+          .get("709045710204436540")
+          .send({ embeds: [embed] });
+      });
+    }
   });
 });
 
