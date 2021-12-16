@@ -20,14 +20,20 @@ client.on("ready", (client) => {
 
   //First check if is sent
   let isSend = false;
-  schedule.scheduleJob("* 0 18 * * 4", async () => {
+  let cron = "* 0 18 * * 4";
+  //Christmas cron
+  cron = "* 18 * * *";
+  schedule.scheduleJob(cron, async () => {
     //If it is not sent, send it
     if (!isSend) {
       isSend = true;
       const i = await getGames("latest");
 
       //Send a message on channel before "spamming" with games
-      client.channels.cache.get("709045710204436540").send("**LATEST GAMES**");
+      let title = "**LATEST GAMES**";
+      //Christmas title
+      title = "**LATEST GAMES (Christmas Edition 🎅)**";
+      client.channels.cache.get("709045710204436540").send(title);
       i.forEach((data) => {
         const embed = new MessageEmbed()
           .setColor("#f2f2f2")
