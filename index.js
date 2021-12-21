@@ -48,7 +48,7 @@ client.on("ready", (client) => {
                 ? `( In ${data.endDateDiffernce} days )`
                 : data.endDateDiffernce === 1
                 ? "(Tomorrow)"
-                : ""
+                : "Today"
             }`,
             inline: true,
           }
@@ -227,7 +227,7 @@ client.on("messageCreate", async (message) => {
                       ? `( In ${i.endDateDiffernce} days )`
                       : i.endDateDiffernce === 1
                       ? "( Tomorrow )"
-                      : ""
+                      : "Today"
                   }`,
                   inline: true,
                 }
