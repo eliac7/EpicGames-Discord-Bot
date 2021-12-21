@@ -46,7 +46,9 @@ client.on("ready", (client) => {
             value: `${data.endDate} ${
               data.endDateDiffernce > 1
                 ? `( In ${data.endDateDiffernce} days )`
-                : `( In ${data.endDateDiffernce} day )`
+                : data.endDateDiffernce === 1
+                ? "(Tomorrow)"
+                : ""
             }`,
             inline: true,
           }
