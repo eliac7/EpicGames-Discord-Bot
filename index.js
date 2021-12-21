@@ -225,7 +225,9 @@ client.on("messageCreate", async (message) => {
                   value: `${i.endDate} ${
                     i.endDateDiffernce > 1
                       ? `( In ${i.endDateDiffernce} days )`
-                      : `( In ${i.endDateDiffernce} day )`
+                      : i.endDateDiffernce === 1
+                      ? "( Tomorrow )"
+                      : ""
                   }`,
                   inline: true,
                 }
