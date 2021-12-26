@@ -20,7 +20,7 @@ client.on("ready", (client) => {
 
   let cron = "0 18 * * 4";
   //Christmas cron
-  cron = "0 18 * * *";
+  cron = "10 18 * * *";
   schedule.scheduleJob(cron, async () => {
     const i = await getGames("latest");
 
