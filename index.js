@@ -19,15 +19,11 @@ client.on("ready", (client) => {
   //Send a message on a channel , every Thursday on 6PM.
 
   let cron = "0 18 * * 4";
-  //Christmas cron
-  cron = "10 18 * * *";
   schedule.scheduleJob(cron, async () => {
     const i = await getGames("latest");
 
     //Send a message on channel before "spamming" with games
     let title = "**LATEST GAMES**";
-    //Christmas title
-    title = "**LATEST GAMES (Christmas Edition 🎅)**";
     client.channels.cache.get("709045710204436540").send(title);
     i.forEach((data) => {
       const embed = new MessageEmbed()
